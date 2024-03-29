@@ -28,7 +28,14 @@ Library of STScript commands.
 
 
 
+
 - [Costumes Plugin](https://github.com/LenAnderson/SillyTavern-Costumes.git) for `/costumes` command.
+
+
+
+
+
+
 
 
 
@@ -896,7 +903,9 @@ Show the Quick Reply editor. If no QR set is provided, tries to find a QR in one
 
 
 #### `/qr-add`
+`[optional set=qrSetName] [optional label=qrLabel] (optional qrLabel)`
 
+Create a new Quick Reply and open its editor. If no QR set is provided, tries to find a QR in one of the active sets.
 
 ##### Examples
 
