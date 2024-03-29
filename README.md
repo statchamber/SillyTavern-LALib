@@ -15,7 +15,7 @@ Library of STScript commands.
 - Conditionals - switch (switch, case)
 - Conditionals - if (ife, elseif, else, then)
 - World Info (wi-list-books, wi-list-entries)
-- Costumes / Sprites (costumes)
+- Costumes / Sprites (costumes, qr-edit)
 
 
 
@@ -24,7 +24,14 @@ Library of STScript commands.
 ## Requirements
 
 
+
 - [Costumes Plugin](https://github.com/LenAnderson/SillyTavern-Costumes.git) for `/costumes` command.
+
+
+
+
+
+
 
 
 
@@ -842,6 +849,25 @@ Get a list of costume / sprite folders, recursive by default.
 
 ```
 /costumes recurse=false Alice | /echo Alice's top-level costumes only: {{pipe}}
+```
+
+
+
+
+
+#### `/qr-edit`
+`[optional set=qrSetName] [optional label=qrLabel] (optional qrLabel)`
+
+Show the Quick Reply editor. If no QR set is provided, tries to find a QR in one of the active sets.
+
+##### Examples
+
+```
+/qr-edit My QR From An Active Set
+```
+
+```
+/qr-edit set=MyQrSet label=MyQr
 ```
 
 

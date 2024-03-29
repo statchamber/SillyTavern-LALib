@@ -4,6 +4,7 @@ import { findGroupMemberId, groups, selected_group } from '../../../group-chats.
 import { executeSlashCommands, registerSlashCommand } from '../../../slash-commands.js';
 import { isTrueBoolean } from '../../../utils.js';
 import { world_info } from '../../../world-info.js';
+import { quickReplyApi } from '../../quick-reply/index.js';
 
 
 
@@ -897,6 +898,27 @@ rsc('costumes',
     },
     [],
     '<span class="monospace">[optional recurse=false] (folder)</span> – Get a list of costume / sprite folders, recursive by default.',
+);
+
+
+//GROUP: Quick Replies
+rsc('qr-edit',
+    async(args, value)=>{
+        let set = args.set;
+        let label = args.label ?? value;
+        if (set === undefined) {
+            const sets = [...quickReplyApi.listGlobalSets(), ...quickReplyApi.listChatSets()];
+            for (const setName of sets) {
+                if (quickReplyApi.listQuickReplies(setName).includes(label)) {
+                    set = setName;
+                    break;
+                }
+            }
+        }
+        quickReplyApi.getQrByLabel(set, label)?.showEditor();
+    },
+    [],
+    '<span class="monospace">[optional set=qrSetName] [optional label=qrLabel] (optional qrLabel)</span> – Show the Quick Reply editor. If no QR set is provided, tries to find a QR in one of the active sets.',
 );
 
 
