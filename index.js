@@ -932,7 +932,7 @@ rsc('qr-add',
         quickReplyApi.createQuickReply(set, label)?.showEditor();
     },
     [],
-    '',
+    '<span class="monospace">[optional set=qrSetName] [optional label=qrLabel] (optional qrLabel)</span> – Create a new Quick Reply and open its editor. If no QR set is provided, tries to find a QR in one of the active sets.',
 );
 
 
