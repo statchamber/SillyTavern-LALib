@@ -29,7 +29,14 @@ Library of STScript commands.
 
 
 
+
 - [Costumes Plugin](https://github.com/LenAnderson/SillyTavern-Costumes.git) for `/costumes` command.
+
+
+
+
+
+
 
 
 
@@ -84,7 +91,7 @@ Lists LALib commands
 
 ##### Examples
 
-```
+```stscript
 /lalib?
 ```
 
@@ -105,14 +112,14 @@ Returns true or false, depending on whether left and right adhere to rule. Avail
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x 1 |
 /setvar key=y 2 |
 /test left={{getvar::x}} rule=eq right={{getvar::y}} |
 /echo The result will be "false": {{pipe}}
 ```
 
-```
+```stscript
 /setvar key=x 1 |
 /setvar key=y 2 |
 /test left={{getvar::x}} rule=lt right={{getvar::y}} |
@@ -130,12 +137,12 @@ Returns true if both left and right are true, otherwise false.
 
 ##### Examples
 
-```
+```stscript
 /and left=true right=false |
 /echo The result will be "false": {{pipe}}
 ```
 
-```
+```stscript
 /and left=true right=true |
 /echo The result will be "true": {{pipe}}
 ```
@@ -151,12 +158,12 @@ Returns true if at least one of left and right are true, false if both are false
 
 ##### Examples
 
-```
+```stscript
 /or left=true right=false |
 /echo The result will be "true": {{pipe}}
 ```
 
-```
+```stscript
 /or left=false right=false |
 /echo The result will be "false": {{pipe}}
 ```
@@ -172,12 +179,12 @@ Returns true if value is false, otherwise true.
 
 ##### Examples
 
-```
+```stscript
 /not true |
 /echo The result will be "false": {{pipe}}
 ```
 
-```
+```stscript
 /not false |
 /echo The result will be "true": {{pipe}}
 ```
@@ -199,14 +206,14 @@ Executes command for each item of a list or dictionary.
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x ["A", "B", "C"] |
 /foreach var=x
     /echo Item {{index}} is {{item}} \|
     /delay 400
 ```
 
-```
+```stscript
 /foreach list={"a":"foo","b":"bar"}
     /echo Item {{index}} is {{item}} \|
     /delay 400
@@ -223,7 +230,7 @@ Executes command for each item of a list or dictionary and returns the list or d
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x [1,2,3] |
 /map var=x
     /mul {{item}} {{item}}
@@ -231,7 +238,7 @@ Executes command for each item of a list or dictionary and returns the list or d
 /echo Squares: {{pipe}}
 ```
 
-```
+```stscript
 /map list={"a":"foo","b":"bar"}
     /return This is item {{index}} with value {{item}}
 |
@@ -249,7 +256,7 @@ Executes command for each item of a list or dictionary and returns the list or d
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x [1,2,3,4,5,6,7,8,9,10] |
 /filter var=x
     /mod {{item}} 2 \|
@@ -258,7 +265,7 @@ Executes command for each item of a list or dictionary and returns the list or d
 /echo Only even numbers: {{pipe}}
 ```
 
-```
+```stscript
 /filter list={"a":"foo","b":"bar"}
     /test left={{item}} rule=in right=a
 |
@@ -276,7 +283,7 @@ Executes command for each item of a list or dictionary and returns the first ite
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x [2,4,6,8,10] |
 /find var=x
     /test left={{item}} rule=gt right=5
@@ -284,7 +291,7 @@ Executes command for each item of a list or dictionary and returns the first ite
 /echo The first item greater than 5: {{pipe}}
 ```
 
-```
+```stscript
 /find list={"a":"foo","b":"bar","c":"foobar","d":"barfoo"}
     /len {{item}} \|
     /test left=\{\{pipe\}\} rule=gt right=3
@@ -303,13 +310,13 @@ Retrieves a slice of a list or string.
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x [1,2,3,4,5] |
 /slice var=x start=2 |
 /echo The result will be "[3,4,5]": {{pipe}}
 ```
 
-```
+```stscript
 /slice start=-3 foo bar |
 /echo The result will be "bar": {{pipe}}
 ```
@@ -325,7 +332,7 @@ Returns a shuffled list.
 
 ##### Examples
 
-```
+```stscript
 /shuffle [1,2,3,4,5] |
 /echo
 ```
@@ -341,7 +348,7 @@ Takes a list of lists (each item must be a list of at least two items) and creat
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x [
     ["a", 1],
     ["b", 2],
@@ -368,12 +375,12 @@ Splits value into list at every occurrence of find. Supports regex <code>find=/\
 
 ##### Examples
 
-```
+```stscript
 /split foo, bar |
 /echo The result will be ["foo", "bar"]: {{pipe}}
 ```
 
-```
+```stscript
 /split find=/o.+?o/g The quick brown fox jumps over the lazy dog. |
 /echo The result will be ["The quick br", "x jumps", "g."]: {{pipe}}
 ```
@@ -389,13 +396,13 @@ Joins the items of a list with glue into a single string. Use <code>glue={{space
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x ["a","b","c"] |
 /join var=x |
 /echo The result will be "a, b, c": {{pipe}}
 ```
 
-```
+```stscript
 /join glue=::: ["foo", "bar"] |
 /echo The result will be "foo:::bar": {{pipe}}
 ```
@@ -417,7 +424,7 @@ Removes whitespace at the start and end of the text.
 
 ##### Examples
 
-```
+```stscript
 /return [" foo", "bar "] |
 /getat index=0 |
 /trim |
@@ -441,7 +448,7 @@ Retrieves an item from a list or a property from a dictionary.
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x {
     "a": [
         1,
@@ -457,7 +464,7 @@ Retrieves an item from a list or a property from a dictionary.
 /echo The result will be "D": {{pipe}}
 ```
 
-```
+```stscript
 /return {
     "a": [
         1,
@@ -473,7 +480,7 @@ Retrieves an item from a list or a property from a dictionary.
 /echo The result will be "foo": {{pipe}}
 ```
 
-```
+```stscript
 /return {
     "a": [
         1,
@@ -502,7 +509,7 @@ Sets an item in a list or a property in a dictionary. Example: <code>/setat valu
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x {
     "a": [
         1,
@@ -518,7 +525,7 @@ Sets an item in a list or a property in a dictionary. Example: <code>/setat valu
 /echo {{getvar::x}}
 ```
 
-```
+```stscript
 /setvar key=x {
     "a": [
         1,
@@ -534,7 +541,7 @@ Sets an item in a list or a property in a dictionary. Example: <code>/setat valu
 /echo {{getvar::x}}
 ```
 
-```
+```stscript
 /flushvar x |
 /setat var=x index=["a","b",2] creating new objects or list |
 /echo {{getvar::x}}
@@ -557,7 +564,7 @@ try catch.
 
 ##### Examples
 
-```
+```stscript
 /echo Try this first while being connected to an LLM, then without a connection. |
 /setvar key=myPrompt Say hello! |
 /try
@@ -582,7 +589,7 @@ try catch. You must always set <code>pipe={{pipe}}</code> and /catch must always
 
 ##### Examples
 
-```
+```stscript
 see /try
 ```
 
@@ -603,11 +610,11 @@ Copies value into clipboard.
 
 ##### Examples
 
-```
+```stscript
 /copy this text is now in your clipboard
 ```
 
-```
+```stscript
 /copy {{lastMessage}}
 ```
 
@@ -622,11 +629,11 @@ Downloads value as a text file.
 
 ##### Examples
 
-```
+```stscript
 /download Let's download this text.
 ```
 
-```
+```stscript
 /download name=TheLastMessage ext=md {{lastMessage}}
 ```
 
@@ -647,22 +654,22 @@ Click on an element, change its value, retrieve a property, or retrieve an attri
 
 ##### Examples
 
-```
+```stscript
 /dom action=click #fast_ui_mode |
 /echo Toggled "No Blur Effect" setting
 ```
 
-```
+```stscript
 /dom action=value value=0 #avatar_style |
 /echo Avatar style has been set to "Circle"
 ```
 
-```
+```stscript
 /dom action=property property=value #avatar_style |
 /echo Current avatar style: {{pipe}}
 ```
 
-```
+```stscript
 /dom action=attribute attribute=is_system #chat > .mes:last-child |
 /echo Is the last message a system message? {{pipe}}
 ```
@@ -684,7 +691,7 @@ Move group member to position (index starts with 0).</code>
 
 ##### Examples
 
-```
+```stscript
 /memberpos Alice 3 |
 /echo Alice has been moved to position 3
 ```
@@ -706,7 +713,7 @@ Use with /case.
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x foo |
 /switch var=x |
     /case pipe={{pipe}} value=1 /echo value is one |
@@ -726,7 +733,7 @@ Execute command and break out of the switch if the value given in /switch matche
 
 ##### Examples
 
-```
+```stscript
 see /switch
 ```
 
@@ -747,7 +754,7 @@ Use with /then, /elseif, and /else. The provided command must return true or fal
 
 ##### Examples
 
-```
+```stscript
 /setvar key=x foo |
 /ife /test left=x rule=eq right=1 |
     /then pipe={{pipe}} /echo value is one |
@@ -769,7 +776,7 @@ Use with /ife, /then, and /else. The provided command must return true or false.
 
 ##### Examples
 
-```
+```stscript
 see /ife
 ```
 
@@ -784,7 +791,7 @@ Use with /ife, /elseif, and /then. The provided command will be executed if the 
 
 ##### Examples
 
-```
+```stscript
 see /ife
 ```
 
@@ -799,7 +806,7 @@ Use with /ife, /elseif, and /else. The provided command will be executed if the 
 
 ##### Examples
 
-```
+```stscript
 see /ife
 ```
 
@@ -818,7 +825,7 @@ Get a list of currently active World Info books.
 
 ##### Examples
 
-```
+```stscript
 /wi-list-books |
 /echo The currently active WI books are: {{pipe}}
 ```
@@ -834,7 +841,7 @@ Get a list of World Info entries from currently active books or from the book wi
 
 ##### Examples
 
-```
+```stscript
 /wi-list-entries |
 /map list={{pipe}}
     /getat index=entries {{item}} \|
@@ -861,15 +868,15 @@ Get a list of costume / sprite folders, recursive by default.
 
 ##### Examples
 
-```
+```stscript
 /costumes Alice | /echo Alice's costumes: {{pipe}}
 ```
 
-```
+```stscript
 /costumes Alice/Winter | /echo Alice's winter costumes: {{pipe}}
 ```
 
-```
+```stscript
 /costumes recurse=false Alice | /echo Alice's top-level costumes only: {{pipe}}
 ```
 
@@ -890,11 +897,11 @@ Show the Quick Reply editor. If no QR set is provided, tries to find a QR in one
 
 ##### Examples
 
-```
+```stscript
 /qr-edit My QR From An Active Set
 ```
 
-```
+```stscript
 /qr-edit set=MyQrSet label=MyQr
 ```
 
@@ -909,11 +916,11 @@ Create a new Quick Reply and open its editor. If no QR set is provided, tries to
 
 ##### Examples
 
-```
+```stscript
 /qr-add New QR In Active Set
 ```
 
-```
+```stscript
 /qr-add set=MyQrSet label=MyNewQr
 ```
 
@@ -934,26 +941,9 @@ UNDOCUMENTED
 
 ##### Examples
 
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-`(url)`
-
-UNDOCUMENTED
-
-##### Examples
-
+```stscript
+/fetch http://example.com |
+/echo
 ```
 
 
@@ -967,18 +957,10 @@ UNDOCUMENTED
 
 ##### Examples
 
-```
-
-
-
-
-
-`[optional query=cssSelector] [optional take=property] [optional call=property] (html)`
-
-UNDOCUMENTED
-
-##### Examples
-
+```stscript
+/fetch http://example.com |
+/$ query=h1 take=textContent |
+/echo
 ```
 
 
@@ -992,17 +974,9 @@ UNDOCUMENTED
 
 ##### Examples
 
-```
-
-
-
-
-
-`[optional query=cssSelector] [optional take=property] [optional call=property] (html)`
-
-UNDOCUMENTED
-
-##### Examples
-
+```stscript
+/fetch http://example.com |
+/$$ query=p call=remove |
+/echo
 ```
 

@@ -59,7 +59,7 @@ for line in readme:
 	elif group and line.startswith('#### '):
 		name = line.split('`')[1][1:]
 		cmd = [x for x in cmd_list[group] if x.cmd == name][0]
-	elif group and cmd and line == '```\n':
+	elif group and cmd and (line == '```\n' or line == '```stscript\n'):
 		if in_example:
 			cmd.examples.append(ex)
 		in_example = not in_example
@@ -99,7 +99,7 @@ with open(os.path.join(os.path.dirname(__file__), 'README.md'), 'w', encoding='u
 			f.write('##### Examples\n\n')
 			if len(cmd.examples) > 0:
 				for ex in cmd.examples:
-					f.write('```\n')
+					f.write('```stscript\n')
 					f.write(ex)
 					f.write('```\n\n')
 			else:
