@@ -901,7 +901,7 @@ rsc('costumes',
 );
 
 
-//GROUP: Quick Replies
+// GROUP: Quick Replies
 rsc('qr-edit',
     async(args, value)=>{
         let set = args.set;
@@ -919,6 +919,20 @@ rsc('qr-edit',
     },
     [],
     '<span class="monospace">[optional set=qrSetName] [optional label=qrLabel] (optional qrLabel)</span> – Show the Quick Reply editor. If no QR set is provided, tries to find a QR in one of the active sets.',
+);
+
+rsc('qr-add',
+    async(args, value)=>{
+        let set = args.set ?? quickReplyApi.listGlobalSets()[0] ?? quickReplyApi.listChatSets()[0];
+        if (set === undefined) {
+            toastr.error('No Quick Reply Set given and no active Quick Reply Sets to add the new Quick Reply to.');
+            return;
+        }
+        let label = args.label ?? value;
+        quickReplyApi.createQuickReply(set, label)?.showEditor();
+    },
+    [],
+    '',
 );
 
 

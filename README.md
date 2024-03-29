@@ -15,7 +15,8 @@ Library of STScript commands.
 - Conditionals - switch (switch, case)
 - Conditionals - if (ife, elseif, else, then)
 - World Info (wi-list-books, wi-list-entries)
-- Costumes / Sprites (costumes, qr-edit)
+- Costumes / Sprites (costumes)
+- Quick Replies (qr-edit, qr-add)
 
 
 
@@ -25,7 +26,21 @@ Library of STScript commands.
 
 
 
+
+
 - [Costumes Plugin](https://github.com/LenAnderson/SillyTavern-Costumes.git) for `/costumes` command.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -855,6 +870,12 @@ Get a list of costume / sprite folders, recursive by default.
 
 
 
+
+
+### Quick Replies
+
+
+
 #### `/qr-edit`
 `[optional set=qrSetName] [optional label=qrLabel] (optional qrLabel)`
 
@@ -868,6 +889,23 @@ Show the Quick Reply editor. If no QR set is provided, tries to find a QR in one
 
 ```
 /qr-edit set=MyQrSet label=MyQr
+```
+
+
+
+
+
+#### `/qr-add`
+
+
+##### Examples
+
+```
+/qr-add New QR In Active Set
+```
+
+```
+/qr-add set=MyQrSet label=MyNewQr
 ```
 
 
@@ -888,8 +926,25 @@ UNDOCUMENTED
 ##### Examples
 
 ```
-/fetch http://example.com |
-/echo
+
+
+
+
+
+
+
+
+
+
+
+
+
+`(url)`
+
+UNDOCUMENTED
+
+##### Examples
+
 ```
 
 
@@ -904,9 +959,17 @@ UNDOCUMENTED
 ##### Examples
 
 ```
-/fetch http://example.com |
-/$ query=h1 take=textContent |
-/echo
+
+
+
+
+
+`[optional query=cssSelector] [optional take=property] [optional call=property] (html)`
+
+UNDOCUMENTED
+
+##### Examples
+
 ```
 
 
@@ -921,8 +984,16 @@ UNDOCUMENTED
 ##### Examples
 
 ```
-/fetch http://example.com |
-/$$ query=p call=remove |
-/echo
+
+
+
+
+
+`[optional query=cssSelector] [optional take=property] [optional call=property] (html)`
+
+UNDOCUMENTED
+
+##### Examples
+
 ```
 
