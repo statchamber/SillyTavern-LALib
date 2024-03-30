@@ -17,6 +17,7 @@ Library of STScript commands.
 - World Info (wi-list-books, wi-list-entries)
 - Costumes / Sprites (costumes)
 - Quick Replies (qr-edit, qr-add)
+- Chat Messages (swipes-get, swipes-list, swipes-count)
 
 
 
@@ -31,7 +32,21 @@ Library of STScript commands.
 
 
 
+
+
 - [Costumes Plugin](https://github.com/LenAnderson/SillyTavern-Costumes.git) for `/costumes` command.
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -443,13 +458,13 @@ Removes whitespace at the start and end of the text.
 
 
 #### `/diff`
-`[old=oldText] [new=newText]`
+`[optional all=true] [optional notes=text] [old=oldText] [new=newText]`
 
-Compares old text vs new text and displays the difference between the two.
+Compares old text vs new text and displays the difference between the two. Use <code>all=true</code> to show new, old, and diff side by side. Use <code>notes="some text"</code> to show additional notes or comments above the comparison.
 
 ##### Examples
 
-```
+```stscript
 /echo comparing the last two messages |
 
 /sub {{lastMessageId}} 1 |
@@ -466,6 +481,10 @@ Compares old text vs new text and displays the difference between the two.
 /setvar key=new {{var::new}} |
 
 /diff old={{var::old}} new={{var::new}}
+```
+
+```stscript
+/diff old="The quick brown fox jumps over the lazy dog." new="The fast spotted fox jumps across the sleeping dog." notes="Foxes and dogs." all=true
 ```
 
 
@@ -959,6 +978,78 @@ Create a new Quick Reply and open its editor. If no QR set is provided, tries to
 
 ```stscript
 /qr-add set=MyQrSet label=MyNewQr
+```
+
+
+
+
+
+
+
+### Chat Messages
+
+
+
+#### `/swipes-get`
+`[optional message=messageId] (index)`
+
+Get the n-th swipe (zero-based index) from the last message or the message with the given message ID.
+
+##### Examples
+
+```stscript
+/swipes-get 5 |
+/echo Swipe number five: {{pipe}}
+```
+
+```stscript
+/sub {{lastMessageId}} 2 |
+/swipes-countget message={{pipe}} 5 |
+/echo swipe number five: {{pipe}}
+```
+
+
+
+
+
+#### `/swipes-list`
+`[optional message=messageId]`
+
+Get a list of all swipes from the last message or the message with the given message ID.
+
+##### Examples
+
+```stscript
+/swipes-list |
+/echo
+```
+
+```stscript
+/sub {{lastMessageId}} 2 |
+/swipes-list message={{pipe}} |
+/echo
+```
+
+
+
+
+
+#### `/swipes-count`
+`[optional message=messageId]`
+
+Get the number of all swipes from the last message or the message with the given message ID.
+
+##### Examples
+
+```stscript
+/swipes-count |
+/echo
+```
+
+```stscript
+/sub {{lastMessageId}} 2 |
+/swipes-count message={{pipe}} |
+/echo
 ```
 
 
