@@ -472,6 +472,58 @@ rsc('trim',
     '<span class="monospace">(text to trim)</span> – Removes whitespace at the start and end of the text.',
 );
 
+rsc('diff',
+    async (args, value)=>{
+        /**@type {HTMLScriptElement} */
+        let script = document.querySelector('script[src*="SillyTavern-LALib/lib/wiked-diff.js"]');
+        if (!script) {
+            await new Promise(resolve=>{
+                script = document.createElement('script');
+                script.addEventListener('load', resolve);
+                script.src = '/scripts/extensions/third-party/SillyTavern-LALib/lib/wiked-diff.js';
+                document.body.append(script);
+            });
+            const style = document.createElement('style');
+            style.innerHTML = `
+                html > body {
+                    .wikEdDiffFragment {
+                        background-color: transparent;
+                        border: none;
+                        box-shadow: none;
+                        text-align: left;
+                        * {
+                            text-shadow: none !important;
+                        }
+                        .wikEdDiffInsert {
+                            font-weight: normal;
+                            background-color: rgb(200, 255, 200);
+                        }
+                        .wikEdDiffDelete {
+                            font-weight: normal;
+                            background-color: rgb(255, 150, 150);
+                            text-decoration: line-through;
+                        }
+                        .wikEdDiffBlock {
+                            font-weight: normal;
+                            color: rgb(0, 0, 0);
+                        }
+                    }
+                }
+            `;
+            document.body.append(style);
+        }
+        const differ = new WikEdDiff();
+        window.wikEdDiffConfig = window.wikEdDiffConfig ?? {};
+        differ.config.fullDiff = true;
+        differ.config.charDiff = false;
+        // differ.config.unlinkMax = 50;
+        const diffHtml = differ.diff(args.old, args.new);
+        callPopup(diffHtml, 'text', null, { wide:true, large:true });
+    },
+    [],
+    '<span class="monospace">[old=oldText] [new=newText]</span> – Compares old text vs new text and displays the difference between the two.',
+);
+
 
 // GROUP: Accessing & Manipulating Structured Data
 rsc('getat',

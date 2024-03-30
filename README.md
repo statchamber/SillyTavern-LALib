@@ -6,7 +6,7 @@ Library of STScript commands.
 - Boolean Operations (test, and, or, not)
 - List Operations (foreach, map, filter, find, slice, shuffle, dict)
 - Split & Join (split, join)
-- Text Operations (trim)
+- Text Operations (trim, diff)
 - Accessing & Manipulating Structured Data (getat, setat)
 - Exception Handling (try, catch)
 - Copy & Download (copy, download)
@@ -30,7 +30,14 @@ Library of STScript commands.
 
 
 
+
 - [Costumes Plugin](https://github.com/LenAnderson/SillyTavern-Costumes.git) for `/costumes` command.
+
+
+
+
+
+
 
 
 
@@ -429,6 +436,36 @@ Removes whitespace at the start and end of the text.
 /getat index=0 |
 /trim |
 /echo
+```
+
+
+
+
+
+#### `/diff`
+`[old=oldText] [new=newText]`
+
+Compares old text vs new text and displays the difference between the two.
+
+##### Examples
+
+```
+/echo comparing the last two messages |
+
+/sub {{lastMessageId}} 1 |
+/messages names=off |
+/split find=``` |
+/getat index=-1 |
+/let old {{pipe}} |
+/setvar key=old {{var::old}} |
+
+/messages names=off {{lastMessageId}} |
+/split find=``` |
+/getat index=-1 |
+/let new {{pipe}} |
+/setvar key=new {{var::new}} |
+
+/diff old={{var::old}} new={{var::new}}
 ```
 
 
