@@ -486,10 +486,47 @@ rsc('diff',
             const style = document.createElement('style');
             style.innerHTML = `
                 html > body {
+                    #dialogue_popup.wide_dialogue_popup.large_dialogue_popup:has(.lalib--diffContainer) {
+                        aspect-ratio: unset;
+                    }
+                    .lalib--diffWrapper {
+                        display: flex;
+                        flex-direction: column;
+                        height: 100%;
+                        overflow: hidden;
+                        align-items: center;
+                        gap: 1em;
+                        > .lalib--diffNotes {
+                            flex: 0 0 auto;
+                            max-height: 20vh;
+                            overflow: auto;
+                            text-align: left;
+                            font-size: 88%;
+                            white-space: pre-wrap;
+                        }
+                        .lalib--diffContainer {
+                            display: flex;
+                            flex-direction: row;
+                            gap: 1em;
+                            text-align: left;
+                            overflow: hidden;
+                            flex: 1 1 auto;
+                            > .lalib--diffOld, > .lalib--diffNew {
+                                font-size: 88%;
+                                line-height: 1.6;
+                                white-space: pre-wrap;
+                            }
+                            > .lalib--diffOld, > .lalib--diffNew, .lalib--diffDiff {
+                                flex: 1 1 0;
+                                overflow: auto;
+                            }
+                        }
+                    }
                     .wikEdDiffFragment {
                         background-color: transparent;
                         border: none;
                         box-shadow: none;
+                        padding: 0;
                         text-align: left;
                         * {
                             text-shadow: none !important;
@@ -518,10 +555,36 @@ rsc('diff',
         differ.config.charDiff = false;
         // differ.config.unlinkMax = 50;
         const diffHtml = differ.diff(args.old, args.new);
-        callPopup(diffHtml, 'text', null, { wide:true, large:true });
+        let html = `
+            <div class="lalib--diffWrapper">
+        `;
+        if (args.notes && args.notes.length) {
+            html += `
+                <div class="lalib--diffNotes">${args.notes}</div>
+            `;
+        }
+        html += `
+                <div class="lalib--diffContainer">
+        `;
+        if (isTrueBoolean(args.all)) {
+            html += `
+                    <div class="lalib--diffOld">${args.old}</div>
+                    <div class="lalib--diffNew">${args.new}</div>
+                    <div class="lalib--diffDiff">${diffHtml}</div>
+            `;
+        } else {
+            html += `
+                    <div class="lalib--diffDiff">${diffHtml}</div>
+            `;
+        }
+        html += `
+                </div>
+            </div>
+        `;
+        callPopup(html, 'text', null, { wide:true, large:true });
     },
     [],
-    '<span class="monospace">[old=oldText] [new=newText]</span> – Compares old text vs new text and displays the difference between the two.',
+    '<span class="monospace">[optional all=true] [optional notes=text] [old=oldText] [new=newText]</span> – Compares old text vs new text and displays the difference between the two. Use <code>all=true</code> to show new, old, and diff side by side. Use <code>notes="some text"</code> to show additional notes or comments above the comparison.',
 );
 
 
