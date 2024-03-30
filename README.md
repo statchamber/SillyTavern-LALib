@@ -17,7 +17,7 @@ Library of STScript commands.
 - World Info (wi-list-books, wi-list-entries)
 - Costumes / Sprites (costumes)
 - Quick Replies (qr-edit, qr-add)
-- Chat Messages (swipes-get, swipes-list, swipes-count)
+- Chat Messages (swipes-get, swipes-list, swipes-count, swipes-index)
 
 
 
@@ -34,7 +34,14 @@ Library of STScript commands.
 
 
 
+
 - [Costumes Plugin](https://github.com/LenAnderson/SillyTavern-Costumes.git) for `/costumes` command.
+
+
+
+
+
+
 
 
 
@@ -1049,6 +1056,28 @@ Get the number of all swipes from the last message or the message with the given
 ```stscript
 /sub {{lastMessageId}} 2 |
 /swipes-count message={{pipe}} |
+/echo
+```
+
+
+
+
+
+#### `/swipes-index`
+`[optional message=messageId]`
+
+Get the current swipe index from the last message or the message with the given message ID.
+
+##### Examples
+
+```stscript
+/swipes-index |
+/echo
+```
+
+```stscript
+/sub {{lastMessageId}} 2 |
+/swipes-index message={{pipe}} |
 /echo
 ```
 

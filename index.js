@@ -1079,6 +1079,15 @@ rsc('swipes-count',
     '<span class="monospace">[optional message=messageId]</span> – Get the number of all swipes from the last message or the message with the given message ID.',
 );
 
+rsc('swipes-index',
+    (args, value)=>{
+        const idx = args.message && !isNaN(Number(args.message)) ? Number(args.message) : chat.length - 1;
+        return chat[idx]?.swipe_id ?? 0;
+    },
+    [],
+    '<span class="monospace">[optional message=messageId]</span> – Get the current swipe index from the last message or the message with the given message ID.',
+);
+
 
 // GROUP: Undocumented
 rsc('fetch',
