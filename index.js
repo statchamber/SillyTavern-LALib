@@ -1051,6 +1051,35 @@ rsc('qr-add',
 );
 
 
+// GROUP: Chat Messages
+rsc('swipes-get',
+    (args, value)=>{
+        const idx = args.message && !isNaN(Number(args.message)) ? Number(args.message) : chat.length - 1;
+        return chat[idx]?.swipes?.[Number(value)] ?? '';
+    },
+    ['getswipe'],
+    '<span class="monospace">[optional message=messageId] (index)</span> – Get the n-th swipe (zero-based index) from the last message or the message with the given message ID.',
+);
+
+rsc('swipes-list',
+    (args, value)=>{
+        const idx = args.message && !isNaN(Number(args.message)) ? Number(args.message) : chat.length - 1;
+        return JSON.stringify(chat[idx]?.swipes ?? []);
+    },
+    [],
+    '<span class="monospace">[optional message=messageId]</span> – Get a list of all swipes from the last message or the message with the given message ID.',
+);
+
+rsc('swipes-count',
+    (args, value)=>{
+        const idx = args.message && !isNaN(Number(args.message)) ? Number(args.message) : chat.length - 1;
+        return chat[idx]?.swipes?.length ?? 0;
+    },
+    [],
+    '<span class="monospace">[optional message=messageId]</span> – Get the number of all swipes from the last message or the message with the given message ID.',
+);
+
+
 // GROUP: Undocumented
 rsc('fetch',
     async(args, value)=>{
