@@ -494,10 +494,11 @@ rsc('diff',
                         flex-direction: column;
                         height: 100%;
                         overflow: hidden;
-                        align-items: center;
+                        align-items: stretch;
                         gap: 1em;
                         > .lalib--diffNotes {
                             flex: 0 0 auto;
+                            align-self: center;
                             max-height: 20vh;
                             overflow: auto;
                             text-align: left;
@@ -519,6 +520,7 @@ rsc('diff',
                             > .lalib--diffOld, > .lalib--diffNew, .lalib--diffDiff {
                                 flex: 1 1 0;
                                 overflow: auto;
+                                background-color: var(--greyCAIbg);
                             }
                         }
                     }
