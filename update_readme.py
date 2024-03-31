@@ -52,7 +52,7 @@ for line in readme:
 	elif req_start and not req_end:
 		if line.startswith('## '):
 			req_end = True
-		else:
+		elif len(line.strip()) > 0:
 			req = req + line
 	elif line.startswith('### '):
 		group = line.split('### ')[-1].strip()
