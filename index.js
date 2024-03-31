@@ -1089,6 +1089,16 @@ rsc('swipes-index',
 );
 
 
+// GROUP: Time & Date
+rsc('timestamp',
+    (args, value) => {
+        return JSON.stringify(new Date().getTime());
+    },
+    [],
+    '<span class="monospace"></span> – Returns the number of milliseconds midnight at the beginning of January 1, 1970, UTC.',
+);
+
+
 // GROUP: Undocumented
 rsc('fetch',
     async(args, value)=>{

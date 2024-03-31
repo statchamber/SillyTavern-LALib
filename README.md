@@ -18,6 +18,7 @@ Library of STScript commands.
 - Costumes / Sprites (costumes)
 - Quick Replies (qr-edit, qr-add)
 - Chat Messages (swipes-get, swipes-list, swipes-count, swipes-index)
+- Time & Date (timestamp)
 
 
 
@@ -25,78 +26,7 @@ Library of STScript commands.
 
 ## Requirements
 
-
-
-
-
-
-
-
-
-
-
 - [Costumes Plugin](https://github.com/LenAnderson/SillyTavern-Costumes.git) for `/costumes` command.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -1078,6 +1008,26 @@ Get the current swipe index from the last message or the message with the given 
 ```stscript
 /sub {{lastMessageId}} 2 |
 /swipes-index message={{pipe}} |
+/echo
+```
+
+
+
+
+
+
+
+### Time & Date
+
+
+
+#### `/timestamp`
+Returns the number of milliseconds midnight at the beginning of January 1, 1970, UTC.
+
+##### Examples
+
+```stscript
+/timestamp |
 /echo
 ```
 
