@@ -1141,6 +1141,22 @@ rsc('swipes-del',
     '<span class="monospace">(optional index)</span> – Delete the current swipe or the swipe at index (0-based).',
 );
 
+rsc('swipes-go',
+    (args, value)=>{
+        const id = chat.length - 1;
+        const mes = chat[id];
+        const currentMessage = document.querySelector(`#chat [mesid="${id}"]`);
+        if (mes.swipe_id === undefined || (mes.swipes?.length ?? 0) < 2) {
+            return;
+        }
+        const swipeId = Number(value);
+        mes.swipe_id = (swipeId + 1) % mes.swipes.length;
+        currentMessage.querySelector('.swipe_left').click();
+    },
+    [],
+    '<span class="monospace">(index)</span> – Go to the swipe. 0-based index.',
+);
+
 rsc('swipes-index',
     (args, value)=>{
         const idx = args.message && !isNaN(Number(args.message)) ? Number(args.message) : chat.length - 1;
