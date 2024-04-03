@@ -17,8 +17,9 @@ Library of STScript commands.
 - World Info (wi-list-books, wi-list-entries)
 - Costumes / Sprites (costumes)
 - Quick Replies (qr-edit, qr-add)
-- Chat Messages (swipes-get, swipes-list, swipes-count, swipes-index)
+- Chat Messages (swipes-get, swipes-list, swipes-count, swipes-index, swipes-add, swipes-del, swipes-go, message-edit)
 - Time & Date (timestamp)
+- Async (fireandforget)
 
 
 
@@ -1015,6 +1016,96 @@ Get the current swipe index from the last message or the message with the given 
 
 
 
+#### `/swipes-add`
+`(message)`
+
+Add a new swipe to the last message.
+
+##### Examples
+
+```
+/sendas name=Alice foo |
+/delay 1000 |
+/swipes-add bar
+```
+
+
+
+
+
+#### `/swipes-del`
+`(optional index)`
+
+Delete the current swipe or the swipe at index (0-based).
+
+##### Examples
+
+```
+/sendas name=Alice foo |
+/delay 1000 |
+/swipes-add bar |
+/delay 1000 |
+/swipes-del
+```
+
+```
+/sendas name=Alice foo |
+/delay 1000 |
+/swipes-add bar |
+/delay 1000 |
+/swipes-add foobar |
+/delay 1000 |
+/swipes-del 0
+```
+
+
+
+
+
+#### `/swipes-go`
+`(index)`
+
+Go to the swipe. 0-based index.
+
+##### Examples
+
+```
+/sendas name=Alice foo |
+/delay 1000 |
+/swipes-add bar |
+/delay 1000 |
+/swipes-add foobar |
+/delay 1000 |
+/swipes-go 0
+```
+
+
+
+
+
+#### `/message-edit`
+`[optional message=messageId] [optional append=true] (new text)`
+
+Edit the current message or the message at the provided message ID. Use <code>append=true</code> to add the provided text at the end of the message. Use <code>{{space}}</code> to add space at the beginning of the text.
+
+##### Examples
+
+```
+/sendas name=Alice foo |
+/delay 1000 |
+/message-edit bar
+```
+
+```
+/sendas name=Alice foo |
+/delay 1000 |
+/message-edit append=true bar
+```
+
+
+
+
+
 
 
 ### Time & Date
@@ -1029,6 +1120,33 @@ Returns the number of milliseconds midnight at the beginning of January 1, 1970,
 ```stscript
 /timestamp |
 /echo
+```
+
+
+
+
+
+
+
+### Async
+
+
+
+#### `/fireandforget`
+`(closure|command)`
+
+Execute a closure or command without waiting for it to finish.
+
+##### Examples
+
+```
+/fireandforget
+    /delay 1000 \|
+    /echo firing \|
+    /delay 1000 \|
+    /echo still firing
+|
+/echo outside
 ```
 
 
