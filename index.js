@@ -1196,6 +1196,16 @@ rsc('timestamp',
 );
 
 
+// GROUP: Async
+rsc('fireandforget',
+    (args, value)=>{
+        executeSlashCommands(value);
+    },
+    [],
+    '<span class="monospace">(command)</span> – Execute a command without waiting for it to finish.',
+);
+
+
 // GROUP: Undocumented
 rsc('fetch',
     async(args, value)=>{
