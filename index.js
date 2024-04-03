@@ -1166,6 +1166,25 @@ rsc('swipes-index',
     '<span class="monospace">[optional message=messageId]</span> – Get the current swipe index from the last message or the message with the given message ID.',
 );
 
+rsc('message-edit',
+    (args, value)=>{
+        /**@type {HTMLTextAreaElement} */
+        const input = document.querySelector('#send_textarea');
+        const restoreFocus = document.activeElement == input;
+        value = value.replace(/{{space}}/g, ' ');
+        document.querySelector(`#chat [mesid="${args.message ?? chat.length - 1}"] .mes_edit`).click();
+        if (isTrueBoolean(args.append)) {
+            document.querySelector('#curEditTextarea').value += value;
+        } else {
+            document.querySelector('#curEditTextarea').value = value;
+        }
+        document.querySelector(`#chat [mesid="${args.message ?? chat.length - 1}"] .mes_edit_done`).click();
+        if (restoreFocus) input.focus();
+    },
+    [],
+    '<span class="monospace">[optional message=messageId] [optional append=true] (new text)</span> – Edit the current message or the message at the provided message ID. Use <code>append=true</code> to add the provided text at the end of the message. Use <code>{{space}}</code> to add space at the beginning of the text.',
+);
+
 
 // GROUP: Time & Date
 rsc('timestamp',
