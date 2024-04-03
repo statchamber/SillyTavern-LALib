@@ -1113,6 +1113,34 @@ rsc('swipes-add',
     '<span class="monospace">(message)</span> – Add a new swipe to the last message.',
 );
 
+rsc('swipes-del',
+    async(args, value)=>{
+        const id = chat.length - 1;
+        const mes = chat[id];
+        const currentMessage = document.querySelector(`#chat [mesid="${id}"]`);
+
+        // close current message editor
+        document.querySelector('#curEditTextarea')?.closest('.mes')?.querySelector('.mes_edit_cancel')?.click();
+
+        if (mes.swipe_id === undefined || (mes.swipes?.length ?? 0) < 2) {
+            return;
+        }
+        const swipeId = Number(args.index ?? mes.swipe_id);
+        mes.swipe_id = mes.swipes.length - 2;
+        mes.swipes.push('deleting swipe...');
+        mes.swipe_info.push({send_date:getMessageTimeStamp(), extra:{}});
+        mes.swipes.splice(swipeId, 1);
+        mes.swipe_info.splice(swipeId, 1);
+        currentMessage.querySelector('.swipe_right').click();
+        mes.swipes.pop();
+        mes.swipe_info.pop();
+        mes.swipe_id = swipeId % mes.swipes.length;
+        currentMessage.querySelector('.swipe_left').click();
+    },
+    [],
+    '<span class="monospace">(optional index)</span> – Delete the current swipe or the swipe at index (0-based).',
+);
+
 rsc('swipes-index',
     (args, value)=>{
         const idx = args.message && !isNaN(Number(args.message)) ? Number(args.message) : chat.length - 1;
