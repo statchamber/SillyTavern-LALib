@@ -396,9 +396,9 @@ Removes whitespace at the start and end of the text.
 
 
 #### `/diff`
-`[optional all=true] [optional notes=text] [old=oldText] [new=newText]`
+`[optional all=true] [optional buttons=true] [optional stripcode=true] [optional notes=text] [old=oldText] [new=newText]`
 
-Compares old text vs new text and displays the difference between the two. Use <code>all=true</code> to show new, old, and diff side by side. Use <code>notes="some text"</code> to show additional notes or comments above the comparison.
+Compares old text vs new text and displays the difference between the two. Use <code>all=true</code> to show new, old, and diff side by side. Use <code>buttons=true</code> to add buttons to pick which text to return. Use <code>stripcode=true</code> to remove all codeblocks before diffing. Use <code>notes="some text"</code> to show additional notes or comments above the comparison.
 
 ##### Examples
 
@@ -1023,7 +1023,7 @@ Add a new swipe to the last message.
 
 ##### Examples
 
-```
+```stscript
 /sendas name=Alice foo |
 /delay 1000 |
 /swipes-add bar
@@ -1040,7 +1040,7 @@ Delete the current swipe or the swipe at index (0-based).
 
 ##### Examples
 
-```
+```stscript
 /sendas name=Alice foo |
 /delay 1000 |
 /swipes-add bar |
@@ -1048,7 +1048,7 @@ Delete the current swipe or the swipe at index (0-based).
 /swipes-del
 ```
 
-```
+```stscript
 /sendas name=Alice foo |
 /delay 1000 |
 /swipes-add bar |
@@ -1069,7 +1069,7 @@ Go to the swipe. 0-based index.
 
 ##### Examples
 
-```
+```stscript
 /sendas name=Alice foo |
 /delay 1000 |
 /swipes-add bar |
@@ -1090,13 +1090,13 @@ Edit the current message or the message at the provided message ID. Use <code>ap
 
 ##### Examples
 
-```
+```stscript
 /sendas name=Alice foo |
 /delay 1000 |
 /message-edit bar
 ```
 
-```
+```stscript
 /sendas name=Alice foo |
 /delay 1000 |
 /message-edit append=true bar
@@ -1139,7 +1139,7 @@ Execute a closure or command without waiting for it to finish.
 
 ##### Examples
 
-```
+```stscript
 /fireandforget
     /delay 1000 \|
     /echo firing \|

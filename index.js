@@ -3,7 +3,7 @@ import { getMessageTimeStamp } from '../../../RossAscends-mods.js';
 import { extension_settings, getContext } from '../../../extensions.js';
 import { findGroupMemberId, groups, selected_group } from '../../../group-chats.js';
 import { executeSlashCommands, registerSlashCommand } from '../../../slash-commands.js';
-import { isTrueBoolean } from '../../../utils.js';
+import { debounce, isTrueBoolean } from '../../../utils.js';
 import { world_info } from '../../../world-info.js';
 import { quickReplyApi } from '../../quick-reply/index.js';
 
@@ -524,6 +524,15 @@ rsc('diff',
                                 background-color: var(--greyCAIbg);
                             }
                         }
+                        .lalib--diffButtons {
+                            display: flex;
+                            flex-direction: row;
+                            gap: 1em;
+                            justify-items: center;
+                            > .lalib--diffButton {
+                                white-space: nowrap;
+                            }
+                        }
                     }
                     .wikEdDiffFragment {
                         background-color: transparent;
@@ -552,42 +561,91 @@ rsc('diff',
             `;
             document.body.append(style);
         }
-        const differ = new WikEdDiff();
-        window.wikEdDiffConfig = window.wikEdDiffConfig ?? {};
-        differ.config.fullDiff = true;
-        differ.config.charDiff = false;
-        // differ.config.unlinkMax = 50;
-        const diffHtml = differ.diff(args.old, args.new);
-        let html = `
-            <div class="lalib--diffWrapper">
-        `;
-        if (args.notes && args.notes.length) {
-            html += `
-                <div class="lalib--diffNotes">${args.notes}</div>
-            `;
+        const makeDiffer = ()=>{
+            const differ = new WikEdDiff();
+            window.wikEdDiffConfig = window.wikEdDiffConfig ?? {};
+            differ.config.fullDiff = true;
+            differ.config.charDiff = false;
+            // differ.config.unlinkMax = 50;
+            return differ;
+        };
+        let oldText = args.old;
+        let newText = args.new;
+        if (isTrueBoolean(args.stripcode)) {
+            const stripcode = (text)=>text.split('```').filter((_,idx)=>idx % 2 == 0).join('');
+            oldText = stripcode(oldText);
+            newText = stripcode(newText);
         }
-        html += `
-                <div class="lalib--diffContainer">
-        `;
-        if (isTrueBoolean(args.all)) {
-            html += `
-                    <div class="lalib--diffOld">${args.old}</div>
-                    <div class="lalib--diffNew">${args.new}</div>
-                    <div class="lalib--diffDiff">${diffHtml}</div>
-            `;
-        } else {
-            html += `
-                    <div class="lalib--diffDiff">${diffHtml}</div>
-            `;
+        const differ = makeDiffer();
+        const diffHtml = differ.diff(oldText, newText);
+        let diff;
+        const updateDebounced = debounce((newText)=>diff.innerHTML = makeDiffer().diff(oldText, newText));
+        const dom = document.createElement('div'); {
+            dom.classList.add('lalib--diffWrapper');
+            if (args.notes && args.notes.length) {
+                const notes = document.createElement('div'); {
+                    notes.classList.add('lalib--diffNotes');
+                    notes.textContent = args.notes;
+                    dom.append(notes);
+                }
+            }
+            const container = document.createElement('div'); {
+                container.classList.add('lalib--diffContainer');
+                if (isTrueBoolean(args.all)) {
+                    const old = document.createElement('div'); {
+                        old.classList.add('lalib--diffOld');
+                        old.textContent = oldText;
+                        container.append(old);
+                    }
+                    const ne = document.createElement('textarea'); {
+                        ne.classList.add('lalib--diffNew');
+                        ne.value = newText;
+                        ne.addEventListener('input', ()=>{
+                            updateDebounced(ne.value);
+                        });
+                        container.append(ne);
+                    }
+                }
+                diff = document.createElement('div'); {
+                    diff.classList.add('lalib--diffDiff');
+                    diff.innerHTML = diffHtml;
+                    container.append(diff);
+                }
+                dom.append(container);
+            }
+            if (isTrueBoolean(args.buttons)) {
+                const buttons = document.createElement('div'); {
+                    buttons.classList.add('lalib--diffButtons');
+                    const btnOld = document.createElement('div'); {
+                        btnOld.classList.add('lalib--diffButton');
+                        btnOld.classList.add('menu_button');
+                        btnOld.textContent = 'Use Old Text';
+                        btnOld.addEventListener('click', ()=>{
+                            result = oldText;
+                            document.querySelector('#dialogue_popup_ok').click();
+                        });
+                        buttons.append(btnOld);
+                    }
+                    const btnNew = document.createElement('div'); {
+                        btnNew.classList.add('lalib--diffButton');
+                        btnNew.classList.add('menu_button');
+                        btnNew.textContent = 'Use New Text';
+                        btnNew.addEventListener('click', ()=>{
+                            result = oldText;
+                            document.querySelector('#dialogue_popup_ok').click();
+                        });
+                        buttons.append(btnNew);
+                    }
+                    dom.append(buttons);
+                }
+            }
         }
-        html += `
-                </div>
-            </div>
-        `;
-        callPopup(html, 'text', null, { wide:true, large:true });
+        let result = '';
+        await callPopup(dom, 'text', null, { wide:true, large:true, okButton:'Close' });
+        return result;
     },
     [],
-    '<span class="monospace">[optional all=true] [optional notes=text] [old=oldText] [new=newText]</span> – Compares old text vs new text and displays the difference between the two. Use <code>all=true</code> to show new, old, and diff side by side. Use <code>notes="some text"</code> to show additional notes or comments above the comparison.',
+    '<span class="monospace">[optional all=true] [optional buttons=true] [optional stripcode=true] [optional notes=text] [old=oldText] [new=newText]</span> – Compares old text vs new text and displays the difference between the two. Use <code>all=true</code> to show new, old, and diff side by side. Use <code>buttons=true</code> to add buttons to pick which text to return. Use <code>stripcode=true</code> to remove all codeblocks before diffing. Use <code>notes="some text"</code> to show additional notes or comments above the comparison.',
 );
 
 
