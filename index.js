@@ -601,6 +601,7 @@ rsc('diff',
                         ne.classList.add('lalib--diffNew');
                         ne.value = newText;
                         ne.addEventListener('input', ()=>{
+                            newText = ne.value;
                             updateDebounced(ne.value);
                         });
                         container.append(ne);
