@@ -221,7 +221,7 @@ rsc('and',
         try { left = JSON.parse(args.left); } catch { /* empty */ }
         let right = args.right;
         try { right = JSON.parse(args.right); } catch { /* empty */ }
-        return (left && right) == true;
+        return JSON.stringify((left && right) == true);
     },
     [],
     '<span class="monospace">left=val right=val</span> – Returns true if both left and right are true, otherwise false.',
@@ -235,7 +235,7 @@ rsc('or',
         try { left = JSON.parse(args.left); } catch { /* empty */ }
         let right = args.right;
         try { right = JSON.parse(args.right); } catch { /* empty */ }
-        return (left || right) == true;
+        return JSON.stringify((left || right) == true);
     },
     [],
     '<span class="monospace">left=val right=val</span> – Returns true if at least one of left and right are true, false if both are false.',
