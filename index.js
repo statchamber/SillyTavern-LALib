@@ -1081,6 +1081,38 @@ rsc('swipes-count',
     '<span class="monospace">[optional message=messageId]</span> – Get the number of all swipes from the last message or the message with the given message ID.',
 );
 
+rsc('swipes-add',
+    (args, value)=>{
+        const id = chat.length - 1;
+        const mes = chat[id];
+        const currentMessage = document.querySelector(`#chat [mesid="${id}"]`);
+
+        // close current message editor
+        document.querySelector('#curEditTextarea')?.closest('.mes')?.querySelector('.mes_edit_cancel')?.click();
+
+        if (mes.swipe_id === undefined) {
+            mes.swipe_id = 0;
+        }
+        if (mes.swipes === undefined) {
+            mes.swipes = [mes.mes];
+        }
+        if (mes.swipes_info === undefined) {
+            mes.swipe_info = [{
+                send_date: mes.send_date,
+                gen_started: mes.gen_started,
+                gen_finished: mes.gen_finished,
+                extra: JSON.parse(JSON.stringify(mes.extra)),
+            }];
+        }
+        mes.swipe_id = mes.swipes.length - 1;
+        mes.swipes.push(value);
+        mes.swipe_info.push({send_date:getMessageTimeStamp(), extra:{}});
+        currentMessage.querySelector('.swipe_right').click();
+    },
+    [],
+    '<span class="monospace">(message)</span> – Add a new swipe to the last message.',
+);
+
 rsc('swipes-index',
     (args, value)=>{
         const idx = args.message && !isNaN(Number(args.message)) ? Number(args.message) : chat.length - 1;
