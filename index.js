@@ -631,7 +631,7 @@ rsc('diff',
                         btnNew.classList.add('menu_button');
                         btnNew.textContent = 'Use New Text';
                         btnNew.addEventListener('click', ()=>{
-                            result = oldText;
+                            result = newText;
                             document.querySelector('#dialogue_popup_ok').click();
                         });
                         buttons.append(btnNew);
