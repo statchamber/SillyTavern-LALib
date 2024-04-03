@@ -528,7 +528,7 @@ rsc('diff',
                             display: flex;
                             flex-direction: row;
                             gap: 1em;
-                            justify-items: center;
+                            justify-content: center;
                             > .lalib--diffButton {
                                 white-space: nowrap;
                             }
