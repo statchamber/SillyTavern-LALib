@@ -1226,6 +1226,20 @@ rsc('swipes-go',
     '<span class="monospace">(index)</span> – Go to the swipe. 0-based index.',
 );
 
+rsc('swipes-swipe',
+    async(args, value)=>{
+        const id = chat.length - 1;
+        const currentMessage = document.querySelector(`#chat [mesid="${id}"]`);
+        await executeSlashCommands('/swipes-count | /sub {{pipe}} 1 | /swipes-go');
+        currentMessage.querySelector('.swipe_right').click();
+        await new Promise(resolve=>eventSource.once(event_types.GENERATION_ENDED, resolve));
+        await delay(200);
+        return chat[id].mes;
+    },
+    [],
+    '<span class="monospace"></span> – Trigger a new swipe on the current message.',
+);
+
 rsc('message-edit',
     (args, value)=>{
         /**@type {HTMLTextAreaElement} */

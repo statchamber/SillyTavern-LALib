@@ -17,7 +17,7 @@ Library of STScript commands.
 - World Info (wi-list-books, wi-list-entries)
 - Costumes / Sprites (costumes)
 - Quick Replies (qr-edit, qr-add)
-- Chat Messages (swipes-get, swipes-list, swipes-count, swipes-index, swipes-add, swipes-del, swipes-go, message-edit)
+- Chat Messages (swipes-get, swipes-list, swipes-count, swipes-index, swipes-add, swipes-del, swipes-go, swipes-swipe, message-edit)
 - Time & Date (timestamp)
 - Async (fireandforget)
 
@@ -1077,6 +1077,20 @@ Go to the swipe. 0-based index.
 /swipes-add foobar |
 /delay 1000 |
 /swipes-go 0
+```
+
+
+
+
+
+#### `/swipes-swipe`
+Trigger a new swipe on the current message.
+
+##### Examples
+
+```
+/swipes-swipe |
+/echo swiping has finished
 ```
 
 
