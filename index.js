@@ -1197,7 +1197,7 @@ rsc('swipes-del',
         const swipeId = Number(value == '' ? mes.swipe_id : value);
         mes.swipe_id = mes.swipes.length - 2;
         mes.swipes.push('deleting swipe...');
-        mes.swipe_info.push({send_date:getMessageTimeStamp(), extra:{}});
+        mes.swipe_info.push({ send_date:getMessageTimeStamp(), extra:{} });
         mes.swipes.splice(swipeId, 1);
         mes.swipe_info.splice(swipeId, 1);
         currentMessage.querySelector('.swipe_right').click();
