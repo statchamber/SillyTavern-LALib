@@ -1,9 +1,9 @@
-import { callPopup, characters, chat, chat_metadata, getRequestHeaders, reloadMarkdownProcessor, sendSystemMessage } from '../../../../script.js';
+import { callPopup, characters, chat, chat_metadata, eventSource, event_types, getRequestHeaders, reloadMarkdownProcessor, sendSystemMessage } from '../../../../script.js';
 import { getMessageTimeStamp } from '../../../RossAscends-mods.js';
 import { extension_settings, getContext } from '../../../extensions.js';
 import { findGroupMemberId, groups, selected_group } from '../../../group-chats.js';
 import { executeSlashCommands, registerSlashCommand } from '../../../slash-commands.js';
-import { debounce, isTrueBoolean } from '../../../utils.js';
+import { debounce, delay, isTrueBoolean } from '../../../utils.js';
 import { world_info } from '../../../world-info.js';
 import { quickReplyApi } from '../../quick-reply/index.js';
 
@@ -649,6 +649,14 @@ rsc('diff',
     '<span class="monospace">[optional all=true] [optional buttons=true] [optional stripcode=true] [optional notes=text] [old=oldText] [new=newText]</span> – Compares old text vs new text and displays the difference between the two. Use <code>all=true</code> to show new, old, and diff side by side. Use <code>buttons=true</code> to add buttons to pick which text to return. Use <code>stripcode=true</code> to remove all codeblocks before diffing. Use <code>notes="some text"</code> to show additional notes or comments above the comparison.',
 );
 
+rsc('json-pretty',
+    (args, value)=>{
+        return JSON.stringify(JSON.parse(value), null, 4);
+    },
+    [],
+    '<span class="monospace">(JSON)</span> – Pretty print JSON.',
+);
+
 
 // GROUP: Accessing & Manipulating Structured Data
 rsc('getat',
@@ -993,6 +1001,21 @@ rsc('then',
 );
 
 
+const getBookNamesWithSource = ()=>{
+    const context = getContext();
+    return {
+        global: world_info.globalSelect ?? [],
+        chat: chat_metadata.world_info ?? null,
+        auxiliary: world_info.charLore?.reduce((dict,cur)=>(dict[cur.name] = cur.extraBooks,dict),{}) ?? {},
+        character: characters[context.characterId]?.data?.character_book?.name,
+        group: groups
+            .find(it=>it.id == context.groupId)
+            ?.members
+            ?.map(m=>[m, characters.find(it=>it.avatar == m)?.data?.character_book?.name])
+            ?.reduce((dict,cur)=>(dict[cur[0]] = cur[1],dict), {})
+            ?? {},
+    };
+};
 const getBookNames = ()=>{
     const context = getContext();
     const names = [
@@ -1012,11 +1035,15 @@ const getBookNames = ()=>{
 // GROUP: World Info
 rsc('wi-list-books',
     async(args, value)=>{
+        if (isTrueBoolean(args.source)) {
+            return JSON.stringify(getBookNamesWithSource());
+        }
         return JSON.stringify(getBookNames());
     },
     [],
-    '<span class="monospace"></span> – Get a list of currently active World Info books.',
+    '<span class="monospace">[optional source=true]</span> – Get a list of currently active World Info books. Use <code>source=true</code> to get a dictionary of lists where the keys are the activation sources.',
 );
+
 rsc('wi-list-entries',
     async(args, value)=>{
         const loadBook = async(name)=>{

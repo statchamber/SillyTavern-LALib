@@ -6,7 +6,7 @@ Library of STScript commands.
 - Boolean Operations (test, and, or, not)
 - List Operations (foreach, map, filter, find, slice, shuffle, dict)
 - Split & Join (split, join)
-- Text Operations (trim, diff)
+- Text Operations (trim, diff, json-pretty)
 - Accessing & Manipulating Structured Data (getat, setat)
 - Exception Handling (try, catch)
 - Copy & Download (copy, download)
@@ -429,6 +429,22 @@ Compares old text vs new text and displays the difference between the two. Use <
 
 
 
+#### `/json-pretty`
+`(JSON)`
+
+Pretty print JSON.
+
+##### Examples
+
+```
+/json-pretty {"a":1, "b":[1,2,3]} |
+/send ```json{{newline}}{{pipe}}{{newline}}```
+```
+
+
+
+
+
 
 
 ### Accessing & Manipulating Structured Data
@@ -815,13 +831,21 @@ see /ife
 
 
 #### `/wi-list-books`
-Get a list of currently active World Info books.
+`[optional source=true]`
+
+Get a list of currently active World Info books. Use <code>source=true</code> to get a dictionary of lists where the keys are the activation sources.
 
 ##### Examples
 
 ```stscript
 /wi-list-books |
 /echo The currently active WI books are: {{pipe}}
+```
+
+```stscript
+/wi-list-books source=true |
+/json-pretty |
+/comment Currently active WI books:{{newline}}```json{{newline}}{{pipe}}{{newline}}```
 ```
 
 
@@ -1088,7 +1112,7 @@ Trigger a new swipe on the current message.
 
 ##### Examples
 
-```
+```stscript
 /swipes-swipe |
 /echo swiping has finished
 ```
