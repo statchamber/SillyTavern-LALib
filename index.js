@@ -1007,7 +1007,7 @@ const getBookNamesWithSource = ()=>{
         global: world_info.globalSelect ?? [],
         chat: chat_metadata.world_info ?? null,
         character: characters[context.characterId]?.data?.character_book?.name ?? null,
-        characterAuxiliary: world_info.charLore.find(it=>it.name == characters[context.characterId]?.avatar?.split('.')?.slice(0,-1)?.join('.'))?.map(it=>it.extraBooks) ?? [],
+        characterAuxiliary: world_info.charLore?.find(it=>it.name == characters[context.characterId]?.avatar?.split('.')?.slice(0,-1)?.join('.'))?.map(it=>it.extraBooks) ?? [],
         group: groups
             .find(it=>it.id == context.groupId)
             ?.members
@@ -1015,7 +1015,7 @@ const getBookNamesWithSource = ()=>{
             ?.reduce((dict,cur)=>{
                 dict[cur[0]] = {
                     character: cur[1] ?? null,
-                    auxiliary: world_info.charLore.find(it=>it.name == cur[0].split('.').slice(0,-1).join('.'))?.extraBooks ?? [],
+                    auxiliary: world_info.charLore?.find(it=>it.name == cur[0].split('.').slice(0,-1).join('.'))?.extraBooks ?? [],
                 };
                 return dict;
             }, {})
@@ -1028,13 +1028,13 @@ const getBookNames = ()=>{
         ...(world_info.globalSelect ?? []),
         chat_metadata.world_info,
         characters[context.characterId]?.data?.character_book?.name,
-        ...world_info.charLore.find(it=>it.name == characters[context.characterId]?.avatar?.split('.')?.slice(0,-1)?.join('.'))?.map(it=>it.extraBooks) ?? [],
+        ...world_info.charLore?.find(it=>it.name == characters[context.characterId]?.avatar?.split('.')?.slice(0,-1)?.join('.'))?.map(it=>it.extraBooks) ?? [],
         ...(groups
             .find(it=>it.id == context.groupId)
             ?.members
             ?.map(m=>[
                 ...(characters.find(it=>it.avatar == m)?.data?.character_book?.name ?? []),
-                ...(world_info.charLore.find(it=>it.name == m.split('.').slice(0,-1).join('.'))?.extraBooks ?? []),
+                ...(world_info.charLore?.find(it=>it.name == m.split('.').slice(0,-1).join('.'))?.extraBooks ?? []),
             ])
                 ?? []
         ),
