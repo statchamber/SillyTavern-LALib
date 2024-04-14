@@ -6,7 +6,7 @@ Library of STScript commands.
 - Boolean Operations (test, and, or, not)
 - List Operations (foreach, map, filter, find, slice, shuffle, dict)
 - Split & Join (split, join)
-- Text Operations (trim, diff, json-pretty)
+- Text Operations (trim, replace, replaceAll, diff, json-pretty)
 - Accessing & Manipulating Structured Data (getat, setat)
 - Exception Handling (try, catch)
 - Copy & Download (copy, download)
@@ -395,6 +395,50 @@ Removes whitespace at the start and end of the text.
 
 
 
+#### `/replace`
+`[find=string_or_regex] [replace=string] [optional var=varname] [optional globalvar=globalvarname] (optional value)`
+
+Replaces the first occurrence of "find" with "replace" in the given value or variable.
+
+##### Examples
+
+```stscript
+/replace find="cat" replace="dog" The cat sat on the mat |
+/echo The result will be "The dog sat on the mat": {{pipe}}
+```
+
+```stscript
+/setvar key=sentence There are 123 apples |
+/replace find="/\d+/" replace="NUMBER" var=sentence |
+/echo The result will be "There are NUMBER apples": {{pipe}}
+```
+
+
+
+
+
+#### `/replaceAll`
+`[find=string_or_regex] [replace=string] [optional var=varname] [optional globalvar=globalvarname] (optional value)`
+
+Replaces all occurrences of "find" with "replace" in the given value or variable.
+
+##### Examples
+
+```stscript
+/replaceAll find="apple" replace="orange" I like apples and apple pie |
+/echo The result will be "I like oranges and orange pie": {{pipe}}
+```
+
+```stscript
+/setvar key=sentence This is a test sentence |
+/replaceAll find="/[aeiou]/g" replace="-" var=sentence |
+/echo The result will be "Th-s -s - t-st s-nt-nc-": {{pipe}}
+```
+
+
+
+
+
 #### `/diff`
 `[optional all=true] [optional buttons=true] [optional stripcode=true] [optional notes=text] [old=oldText] [new=newText]`
 
@@ -436,7 +480,7 @@ Pretty print JSON.
 
 ##### Examples
 
-```
+```stscript
 /json-pretty {"a":1, "b":[1,2,3]} |
 /send ```json{{newline}}{{pipe}}{{newline}}```
 ```
@@ -1171,9 +1215,9 @@ Returns the number of milliseconds midnight at the beginning of January 1, 1970,
 
 
 #### `/fireandforget`
-`(closure|command)`
+`(command)`
 
-Execute a closure or command without waiting for it to finish.
+Execute a command without waiting for it to finish.
 
 ##### Examples
 

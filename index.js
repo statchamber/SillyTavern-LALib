@@ -473,6 +473,38 @@ rsc('trim',
     '<span class="monospace">(text to trim)</span> – Removes whitespace at the start and end of the text.',
 );
 
+rsc('replace',
+    (args, value) => {
+        let find = args.find;
+        const replace = args.replace;
+        const target = getVar(args.var, args.globalvar, value);
+
+        if (find.match(/^\/.+\/[a-z]*$/)) {
+            find = new RegExp(find.replace(/^\/(.+)\/([a-z]*)$/, '$1'), find.replace(/^\/(.+)\/([a-z]*)$/, '$2'));
+        }
+        return target.replace(find, replace); 
+    },
+    [],
+    '<span class="monospace">[find=string_or_regex] [replace=string] [optional var=varname] [optional globalvar=globalvarname] (optional value)</span> – Replaces the first occurrence of "find" with "replace" in the given value or variable.',
+);
+
+rsc('replaceAll',
+    (args, value) => {
+        let find = args.find;
+        const replace = args.replace;
+        const target = getVar(args.var, args.globalvar, value);
+
+        if (find.match(/^\/.+\/[a-z]*$/)) {
+            find = new RegExp(find.replace(/^\/(.+)\/([a-z]*)$/, '$1'), find.replace(/^\/(.+)\/([a-z]*)$/, '$2'));
+        } else {
+            find = new RegExp(find, 'g');
+        }
+        return target.replace(find, replace); 
+    },
+    [],
+    '<span class="monospace">[find=string_or_regex] [replace=string] [optional var=varname] [optional globalvar=globalvarname] (optional value)</span> – Replaces all occurrences of "find" with "replace" in the given value or variable.',
+);
+
 rsc('diff',
     async (args, value)=>{
         /**@type {HTMLScriptElement} */
